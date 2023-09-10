@@ -1,6 +1,6 @@
 # Yui
 
-![Build Status](https://github.com/ocornut/imgui/workflows/build/badge.svg)](https://github.com/lafette21/yui-cpp/actions?workflow=build)
+[![Build](https://github.com/lafette21/yui-cpp/actions/workflows/build.yml/badge.svg)](https://github.com/lafette21/yui-cpp/actions/workflows/build.yml)
 
 ## Project structure
 
