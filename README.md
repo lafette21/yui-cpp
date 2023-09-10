@@ -1,7 +1,25 @@
-# cpp-starter-project
+# Yui
 
-## Bibliography
+![Build Status](https://github.com/ocornut/imgui/workflows/build/badge.svg)](https://github.com/lafette21/yui-cpp/actions?workflow=build)
 
-[CMake Conan Boilerplate](https://github.com/cpp-best-practices/cmake_conan_boilerplate_template)
+## Project structure
 
-[Project Options](https://github.com/aminya/project_options)
+```
+.
+├── 3pp
+│   └── imgui
+├── CMakeLists.txt
+├── LICENSE
+├── README.md
+├── cmake
+│   ├── compiler-warnings.cmake
+│   ├── conan-config.cmake
+│   └── settings.cmake
+├── conanfile.txt
+├── src
+│   ├── CMakeLists.txt
+│   └── main.cc
+└── unit-tests
+    ├── CMakeLists.txt
+    └── sample.cc
+```
