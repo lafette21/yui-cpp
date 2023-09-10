@@ -243,7 +243,7 @@ private:
  */
 class window : public widget<window> {
 public:
-    window(const std::string& title, const window_config& config, bool* is_open = nullptr) {
+    window(const std::string& title, const window_config& config = {}, bool* is_open = nullptr) {
         ImGui::Begin(title.c_str(), is_open, config.flag());
     }
 
@@ -259,10 +259,22 @@ public:
     /**
      * @brief   Create an image on the window
      */
-    // window& image(GLuint texture, const vec2& upperLeft, const vec2& bottomRight) {
-        // ImGui::GetWindowDrawList()->AddImage(reinterpret_cast<void*>(texture), upperLeft, bottomRight);
+    // template <typename TextureId>
+    // window& image(TextureId id, const vec2& upper_left, const vec2& bottom_right) {
+        // ImGui::GetWindowDrawList()->AddImage(
+            // reinterpret_cast<void*>(id), upper_left, bottom_right
+        // );
         // return *this;
     // }
+
+    /**
+     * @brief   Create an image on the window
+     */
+    template <typename TextureId>
+    window& image(TextureId id, const vec2& size) {
+        ImGui::Image(reinterpret_cast<void*>(id), size);
+        return *this;
+    }
 
     /**
      * @brief   Set the window size
