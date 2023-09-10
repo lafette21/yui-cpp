@@ -6,8 +6,6 @@
 
 ```
 .
-├── 3pp
-│   └── imgui
 ├── CMakeLists.txt
 ├── LICENSE
 ├── README.md
@@ -16,6 +14,8 @@
 │   ├── conan-config.cmake
 │   └── settings.cmake
 ├── conanfile.txt
+├── deps
+│   └── imgui
 ├── src
 │   ├── CMakeLists.txt
 │   └── main.cc
