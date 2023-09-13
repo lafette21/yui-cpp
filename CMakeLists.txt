@@ -13,8 +13,11 @@ include(cmake/compiler-warnings.cmake)
 include(cmake/conan-config.cmake)
 include(cmake/settings.cmake)
 
+find_package(fmt REQUIRED)
+find_package(OpenGL REQUIRED)
+
 # Setup Conan
-run_conan()
+# run_conan()
 
 # Set project warnings
 add_library(project_warnings INTERFACE)

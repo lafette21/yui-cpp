@@ -1,4 +1,4 @@
-set(LIB_NAME yui)
+set(LIB_NAME yui-devel)
 
 add_library(${LIB_NAME} INTERFACE)
 
