@@ -1,12 +1,14 @@
-set(LIB_NAME yui-devel)
+set(YUI_HEADERS yui-headers)
 
-add_library(${LIB_NAME} INTERFACE)
+add_library(${YUI_HEADERS} INTERFACE)
 
-target_link_libraries(${LIB_NAME} INTERFACE project_warnings)
-
-target_include_directories(${LIB_NAME} INTERFACE
+target_include_directories(${YUI_HEADERS} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
-code_analysis(${LIB_NAME} INTERFACE)
+target_link_libraries(${YUI_HEADERS} INTERFACE
+    fmt::fmt-header-only
+)
+
+code_analysis(${YUI_HEADERS} INTERFACE)

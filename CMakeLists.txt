@@ -12,9 +12,7 @@ project(myproject
 include(cmake/compiler-warnings.cmake)
 include(cmake/conan-config.cmake)
 include(cmake/settings.cmake)
-
-find_package(fmt REQUIRED)
-find_package(OpenGL REQUIRED)
+include(cmake/dependencies.cmake)
 
 # Setup Conan
 # run_conan()
@@ -29,4 +27,5 @@ enable_testing()
 # Add the subdirectories
 add_subdirectory(include)
 add_subdirectory(src)
+add_subdirectory(example)
 add_subdirectory(unit-tests)
