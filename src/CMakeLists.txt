@@ -11,7 +11,7 @@ target_include_directories(imgui-backend-GL SYSTEM PUBLIC
 
 target_link_libraries(imgui-backend-GL
     glfw
-    OpenGL::GL
+    GL
 )
 
 add_library(imgui SHARED
@@ -38,6 +38,7 @@ target_include_directories(${LIB_NAME} PUBLIC
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC
+    yui-devel
     imgui
     imgui-backend-GL
 )
@@ -49,7 +50,7 @@ add_executable(${EXEC_NAME}
 )
 
 target_link_libraries(${EXEC_NAME} PUBLIC
-    fmt::fmt-header-only
+    # fmt::fmt-header-only
     yui
     yui-devel
 )
