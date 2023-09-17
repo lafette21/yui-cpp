@@ -11,6 +11,7 @@ project(yui
 # Include cmake files
 include(cmake/compiler-warnings.cmake)
 include(cmake/settings.cmake)
+include(cmake/dependencies.cmake)
 
 # Set project warnings
 add_library(project_warnings INTERFACE)
