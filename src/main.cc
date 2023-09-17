@@ -6,7 +6,7 @@
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {
-    fmt::println("Example {}", "project");
+    fmt::print("Example {}\n", "project");
 
     return EXIT_SUCCESS;
 }
