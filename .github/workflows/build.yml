@@ -25,10 +25,6 @@ jobs:
       with:
         version: 1.60.0
 
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@main
-      if: runner.os == 'Windows'
-
     - name: Install dependencies - Linux
       if: runner.os == 'Linux'
       run: |
@@ -42,10 +38,12 @@ jobs:
       run: brew install fmt glfw3
 
     - name: Install dependencies - Windows
+      uses: johnwason/vcpkg-action@v5
       if: runner.os == 'Windows'
-      run: vcpkg install fmt glfw3
       with:
-        vcpkgGitCommitId: 'c9f906558f9bb12ee9811d6edc98ec9255c6cda5'
+        pkgs: fmt glfw3
+        triplet: x64-windows-${{ matrix.build_type }}
+        token: ${{ github.token }}
 
     - name: Build
       run: |
