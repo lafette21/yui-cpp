@@ -4,9 +4,11 @@ add_executable(${EXEC_NAME}
     sample.cc
 )
 
+find_package(GTest CONFIG REQUIRED)
+
 target_link_libraries(${EXEC_NAME} PRIVATE
-    gtest_main
-    gtest
+    GTest::gtest
+    GTest::gtest_main
 )
 
 code_analysis(${EXEC_NAME} PRIVATE)
