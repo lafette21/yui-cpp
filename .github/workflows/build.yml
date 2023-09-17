@@ -42,7 +42,7 @@ jobs:
       if: runner.os == 'Windows'
       with:
         pkgs: fmt glfw3
-        triplet: x64-windows-${{ matrix.build_type }}
+        triplet: x64-windows
         token: ${{ github.token }}
 
     - name: Build
