@@ -33,10 +33,6 @@ add_library(${YUI_IMPL}
 
 code_analysis(${YUI_IMPL} PRIVATE)
 
-target_include_directories(${YUI_IMPL} PUBLIC
-    ${CMAKE_SOURCE_DIR}/include/yui
-)
-
 target_link_libraries(${YUI_IMPL} PUBLIC
     yui-headers
     imgui
