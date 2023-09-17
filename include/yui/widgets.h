@@ -153,43 +153,7 @@ public:
         } else {
             static_assert(
                 std::is_same_v<T, void> && !std::is_same_v<T, void>,
-                "Only the following types are supported for inputs: int, float, double, std::string"
-            );
-        }
-        return *static_cast<Derived*>(this);
-    }
-
-    /**
-     * @brief   Create a slider
-     */
-    template <typename T>
-    Derived& slider(const std::string& label, T* value, T min, T max) {
-        if constexpr (std::is_same_v<T, int>) {
-            ImGui::SliderInt(label.c_str(), value, min, max);
-        } else if constexpr (std::is_same_v<T, float>) {
-            ImGui::SliderFloat(label.c_str(), value, min, max);
-        } else {
-            static_assert(
-                std::is_same_v<T, void> && !std::is_same_v<T, void>,
-                "Only the following types are supported for sliders: int, float"
-            );
-        }
-        return *static_cast<Derived*>(this);
-    }
-
-    /**
-     * @brief   Create a drag slider
-     */
-    template <typename T>
-    Derived& drag_slider(const std::string& label, T* value, float speed, T min, T max) {
-        if constexpr (std::is_same_v<T, int>) {
-            ImGui::DragInt(label.c_str(), value, speed, min, max);
-        } else if constexpr (std::is_same_v<T, float>) {
-            ImGui::DragFloat(label.c_str(), value, speed, min, max);
-        } else {
-            static_assert(
-                std::is_same_v<T, void> && !std::is_same_v<T, void>,
-                "Only the following types are supported for drag sliders: int, float"
+                "Only the following types are supported for input: int, float, double, std::string"
             );
         }
         return *static_cast<Derived*>(this);

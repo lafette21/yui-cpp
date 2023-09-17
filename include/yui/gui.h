@@ -56,7 +56,7 @@ public:
     /**
      * @brief   TODO
      */
-    class window window(const std::string& title, const window_config& config = {}, bool* is_open = nullptr) {
+    class window window(const std::string& title, const window_config& config, bool* is_open = nullptr) {
         return yui::window(title, config, is_open);
     }
 
