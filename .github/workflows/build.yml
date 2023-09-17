@@ -30,24 +30,37 @@ jobs:
       run: |
         sudo add-apt-repository universe
         sudo apt update
-        sudo apt install -y gcc-13 g++-13 libfmt-dev libglfw3-dev
+        sudo apt install -y gcc-13 g++-13 libfmt-dev libglfw3-dev libgtest-dev libgmock-dev
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
 
     - name: Install dependencies - MacOS
       if: runner.os == 'MacOS'
-      run: brew install fmt glfw3
+      run: brew install fmt glfw3 googletest
 
     - name: Install dependencies - Windows
       uses: johnwason/vcpkg-action@v5
       if: runner.os == 'Windows'
       with:
-        pkgs: fmt glfw3
+        pkgs: fmt glfw3 gtest
         triplet: x64-windows
         token: ${{ github.token }}
 
-    - name: Build
+    - name: Build - Linux
+      if: runner.os == 'Linux'
+      run: |
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DSUPPRESS_COMPILER_WERROR=1
+        cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }}
+
+    - name: Build - MacOS
+      if: runner.os == 'MacOS'
       run: |
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }}
+
+    - name: Build - Windows
+      if: runner.os == 'Windows'
+      run: |
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
         cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }}
 
     - name: Unit Test

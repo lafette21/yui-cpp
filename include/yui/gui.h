@@ -1,6 +1,10 @@
 #ifndef GUI_H
 #define GUI_H
 
+#ifdef __APPLE__
+#define GL_SILENCE_DEPRECATION
+#endif
+
 #include "types.h"
 #include "widgets.h"
 
@@ -14,12 +18,18 @@
 
 namespace yui {
 
+struct gui_config {
+    vec2 window_size;
+    std::string fontpath;
+    float fontsize;
+};
+
 /**
  * @brief   Wrapper class around GLFW and ImGUI
  */
 class gui {
 public:
-    gui(const std::string& title, vec2 size);
+    gui(const std::string& title, const gui_config& cfg);
     ~gui();
 
     gui(const gui&)             = delete;

@@ -1,10 +1,10 @@
-#include "gui.h"
+#include "yui/gui.h"
 
 namespace yui {
 
-gui::gui(const std::string& title, vec2 size):
+gui::gui(const std::string& title, const gui_config& cfg):
     m_glsl_version(glsl_version()),
-    m_dimensions(size)
+    m_dimensions(cfg.window_size)
 {
     glfwSetErrorCallback([]([[maybe_unused]] int err, [[maybe_unused]] const char* msg) { /* logging::error("{} {}", err, msg); */ });
 
@@ -12,7 +12,14 @@ gui::gui(const std::string& title, vec2 size):
         throw std::runtime_error("Failed to initialize GUI!");
     }
 
-    m_window = glfwCreateWindow(static_cast<int>(size.x()), static_cast<int>(size.y()), title.c_str(), nullptr, nullptr);
+    m_window = glfwCreateWindow(
+        static_cast<int>(m_dimensions.x()),
+        static_cast<int>(m_dimensions.y()),
+        title.c_str(),
+        nullptr,
+        nullptr
+    );
+
     if (m_window == nullptr) {
         throw std::runtime_error("Failed to initialize window!");
     }
@@ -26,6 +33,14 @@ gui::gui(const std::string& title, vec2 size):
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+
+    if (not cfg.fontpath.empty()) {
+        io.Fonts->AddFontFromFileTTF(cfg.fontpath.c_str(), cfg.fontsize);
+    }
 
     ImGui::StyleColorsDark();
 
