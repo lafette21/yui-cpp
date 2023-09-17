@@ -2,6 +2,7 @@ set(YUI_HEADERS yui-headers)
 
 add_library(${YUI_HEADERS} INTERFACE)
 
+# TODO: This didn't solve the problem
 target_compile_definitions(${YUI_HEADERS} INTERFACE
     FMT_SYSTEM_HEADERS=ON
 )
