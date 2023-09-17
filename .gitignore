@@ -1,6 +1,5 @@
 .cache/
 build/
 
-imgui.ini
 compile_commands.json
 imgui.ini
