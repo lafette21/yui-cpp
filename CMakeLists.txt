@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Set the project name and language
-project(myproject
+project(yui
     VERSION 0.0.1
     DESCRIPTION ""
     HOMEPAGE_URL ""
@@ -10,12 +10,8 @@ project(myproject
 
 # Include cmake files
 include(cmake/compiler-warnings.cmake)
-include(cmake/conan-config.cmake)
 include(cmake/settings.cmake)
 include(cmake/dependencies.cmake)
-
-# Setup Conan
-# run_conan()
 
 # Set project warnings
 add_library(project_warnings INTERFACE)

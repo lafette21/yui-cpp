@@ -34,7 +34,7 @@ add_library(${YUI_IMPL}
 code_analysis(${YUI_IMPL} PRIVATE)
 
 target_link_libraries(${YUI_IMPL} PUBLIC
-    yui-headers
     imgui
     imgui-backend-GL
+    yui-headers
 )

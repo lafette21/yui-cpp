@@ -10,7 +10,7 @@
 
 namespace yui {
 
-template <class T>
+template <typename T>
 concept arithmetic = std::is_arithmetic_v<T>;
 
 /**
@@ -191,7 +191,6 @@ constexpr inline auto area(vec2 dimensions) noexcept {
         value.w()
     );
 }
-
 
 } // namespace yui
 

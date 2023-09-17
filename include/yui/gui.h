@@ -1,6 +1,10 @@
 #ifndef GUI_H
 #define GUI_H
 
+#ifdef __APPLE__
+#define GL_SILENCE_DEPRECATION
+#endif
+
 #include "types.h"
 #include "widgets.h"
 
