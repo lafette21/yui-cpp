@@ -5,8 +5,8 @@ add_executable(${EXEC_NAME}
 )
 
 target_link_libraries(${EXEC_NAME} PRIVATE
-    gtest_main
-    gtest
+    GTest::gtest
+    GTest::gtest_main
 )
 
 code_analysis(${EXEC_NAME} PRIVATE)
