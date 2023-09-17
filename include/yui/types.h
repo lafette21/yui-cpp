@@ -7,9 +7,6 @@
 
 namespace yui {
 
-/**
- * @brief   Internal vec2 type
- */
 struct vec2 {
     constexpr vec2() = default;
     constexpr vec2(float x, float y):
@@ -27,9 +24,6 @@ struct vec2 {
         return *this;
     }
 
-    /**
-     * @brief   Division by a scalar
-     */
     inline vec2& operator/=(float scalar) noexcept {
         data[0] /= scalar;
         data[1] /= scalar;
@@ -85,9 +79,6 @@ inline vec2 operator-(const vec2& lhs, const ImVec2& rhs) noexcept {
     return rhs - lhs;
 }
 
-/**
- * @brief:   Element-wise multiplication
- */
 inline vec2 operator*(const vec2& lhs, const vec2& rhs) noexcept {
     return {
         lhs.data[0] * rhs.data[0],
@@ -95,9 +86,6 @@ inline vec2 operator*(const vec2& lhs, const vec2& rhs) noexcept {
     };
 }
 
-/**
- * @brief   Element-wise division
- */
 inline vec2 operator/(const vec2& lhs, const vec2& rhs) noexcept {
     return {
         lhs.data[0] / rhs.data[0],
@@ -105,9 +93,6 @@ inline vec2 operator/(const vec2& lhs, const vec2& rhs) noexcept {
     };
 }
 
-/**
- * @brief   Division by a scalar
- */
 inline vec2 operator/(const vec2& lhs, float rhs) noexcept {
     return {
         lhs.data[0] / rhs,
@@ -115,9 +100,6 @@ inline vec2 operator/(const vec2& lhs, float rhs) noexcept {
     };
 }
 
-/**
- * @brief   Internal vec4 type
- */
 struct vec4 {
     float x() const { return data[0]; }
     float y() const { return data[1]; }
