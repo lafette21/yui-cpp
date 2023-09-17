@@ -15,7 +15,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
             gui.main_menu().menu("Foo");
         });
     } catch (const std::exception& ex) {
-        fmt::print("Exception occured: {}", ex.what());
+        fmt::print("Exception occured: {}\n", ex.what());
     }
 
     return EXIT_SUCCESS;
