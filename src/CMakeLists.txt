@@ -48,6 +48,10 @@ add_executable(${EXEC_NAME}
     main.cc
 )
 
+target_include_directories(${EXEC_NAME} SYSTEM PUBLIC
+    ${CMAKE_SOURCE_DIR}/deps/imgui
+)
+
 target_link_libraries(${EXEC_NAME} PUBLIC
     fmt::fmt-header-only
     yui
