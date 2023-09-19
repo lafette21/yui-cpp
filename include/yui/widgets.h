@@ -23,6 +23,23 @@ namespace yui {
 /**
  * @brief   TODO
  */
+enum class slider_flag {
+    None                        = ImGuiWindowFlags_None,
+    AlwaysClamip                = ImGuiSliderFlags_AlwaysClamp,     // Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
+    Logarithmic                 = ImGuiSliderFlags_Logarithmic,     // Make the widget logarithmic (linear otherwise). Consider using ImGuiSliderFlags_NoRoundToFormat with this if using a format-string with small amount of digits.
+    NoRoundToFormat             = ImGuiSliderFlags_NoRoundToFormat, // Disable rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
+    NoInput                     = ImGuiSliderFlags_NoInput,         // Disable CTRL+Click or Enter key allowing to input text directly into the widget
+    // TODO: InvalidMask maybe not needed
+    InvalidMask                 = ImGuiSliderFlags_InvalidMask_,    // [Internal] We treat using those bits as being potentially a 'float power' argument from the previous API that has got miscast to this enum, and will trigger an assert if needed.
+};
+
+inline int operator|(slider_flag lhs, slider_flag rhs) {
+    return static_cast<int>(lhs) | static_cast<int>(rhs);
+}
+
+/**
+ * @brief   TODO
+ */
 enum class window_flag {
     None                        = ImGuiWindowFlags_None,
     NoTitleBar                  = ImGuiWindowFlags_NoTitleBar,
@@ -53,6 +70,44 @@ enum class window_flag {
 inline int operator|(window_flag lhs, window_flag rhs) {
     return static_cast<int>(lhs) | static_cast<int>(rhs);
 }
+
+/**
+ * @brief   TODO
+ */
+class slider_config {
+public:
+    slider_config() = default;
+
+    template <typename... Args>
+        requires (std::is_same_v<Args, slider_flag> && ...)
+    slider_config(Args&&... args) {
+        m_flag = static_cast<int>(((std::forward<Args>(args)) | ...));
+    }
+
+    [[nodiscard]] int flag() const noexcept { return m_flag; }
+
+private:
+    int m_flag = static_cast<int>(window_flag::None);
+};
+
+/**
+ * @brief   TODO
+ */
+class window_config {
+public:
+    window_config() = default;
+
+    template <typename... Args>
+        requires (std::is_same_v<Args, window_flag> && ...)
+    window_config(Args&&... args) {
+        m_flag = static_cast<int>(((std::forward<Args>(args)) | ...));
+    }
+
+    [[nodiscard]] int flag() const noexcept { return m_flag; }
+
+private:
+    int m_flag = static_cast<int>(window_flag::None);
+};
 
 /**
  * @brief   TODO
@@ -163,11 +218,18 @@ public:
      * @brief   Create a slider
      */
     template <typename T>
-    Derived& slider(const std::string& label, T* value, T min, T max) {
+    Derived& slider(
+        const std::string& label,
+        T* value,
+        T min,
+        T max,
+        const slider_config& config = {},
+        const std::string& format = ""
+    ) {
         if constexpr (std::is_same_v<T, int>) {
-            ImGui::SliderInt(label.c_str(), value, min, max);
+            ImGui::SliderInt(label.c_str(), value, min, max, format.empty() ? "%d" : format.c_str(), config.flag());
         } else if constexpr (std::is_same_v<T, float>) {
-            ImGui::SliderFloat(label.c_str(), value, min, max);
+            ImGui::SliderFloat(label.c_str(), value, min, max, format.empty() ? "%.3f" : format.c_str(), config.flag());
         } else {
             static_assert(
                 std::is_same_v<T, void> && !std::is_same_v<T, void>,
@@ -181,11 +243,19 @@ public:
      * @brief   Create a drag slider
      */
     template <typename T>
-    Derived& drag_slider(const std::string& label, T* value, float speed, T min, T max) {
+    Derived& drag_slider(
+        const std::string& label,
+        T* value,
+        float speed,
+        T min,
+        T max,
+        const slider_config& config = {},
+        const std::string& format = ""
+    ) {
         if constexpr (std::is_same_v<T, int>) {
-            ImGui::DragInt(label.c_str(), value, speed, min, max);
+            ImGui::DragInt(label.c_str(), value, speed, min, max, format.empty() ? "%d" : format.c_str(), config.flag());
         } else if constexpr (std::is_same_v<T, float>) {
-            ImGui::DragFloat(label.c_str(), value, speed, min, max);
+            ImGui::DragFloat(label.c_str(), value, speed, min, max, format.empty() ? "%.3f" : format.c_str(), config.flag());
         } else {
             static_assert(
                 std::is_same_v<T, void> && !std::is_same_v<T, void>,
@@ -253,25 +323,6 @@ public:
         ImGui::Separator();
         return *static_cast<Derived*>(this);
     }
-};
-
-/**
- * @brief   TODO
- */
-class window_config {
-public:
-    window_config() = default;
-
-    template <typename... Args>
-        requires (std::is_same_v<Args, window_flag> && ...)
-    window_config(Args&&... args) {
-        m_flag = static_cast<int>(((std::forward<Args>(args)) | ...));
-    }
-
-    [[nodiscard]] int flag() const noexcept { return m_flag; }
-
-private:
-    int m_flag = static_cast<int>(window_flag::None);
 };
 
 /**
