@@ -1,5 +1,16 @@
 #include "yui/gui.h"
 
+#ifdef __APPLE__
+#define GL_SILENCE_DEPRECATION
+#endif
+
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl2.h"
+
+#if defined(IMGUI_IMPL_OPENGL_ES2)
+#include <GLES2/gl2.h>
+#endif
+
 namespace yui {
 
 gui::gui(const std::string& title, const gui_config& cfg):
@@ -68,6 +79,41 @@ gui::~gui() {
 
     glfwDestroyWindow(m_window);
     glfwTerminate();
+}
+
+/**
+ * @brief   Event-loop
+ */
+void gui::run(std::function<void()> callback) {
+    while (not glfwWindowShouldClose(m_window)) {
+        glfwPollEvents();
+        glfwGetWindowSize(m_window, &m_width, &m_height);
+
+        ImGui_ImplOpenGL2_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        clear_color(color::black);
+
+        std::invoke(callback);
+
+        ImGui::Render();
+        ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+        glfwSwapBuffers(m_window);
+    }
+}
+
+/**
+ * @brief   TODO
+ */
+void gui::clear_color(const vec4& color) {
+    glClearColor(
+        color.r() * color.a(),
+        color.g() * color.a(),
+        color.b() * color.a(),
+        color.a()
+    );
+
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 std::string_view gui::glsl_version() {

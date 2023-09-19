@@ -1,19 +1,9 @@
 #ifndef GUI_H
 #define GUI_H
 
-#ifdef __APPLE__
-#define GL_SILENCE_DEPRECATION
-#endif
-
 #include "types.h"
 #include "widgets.h"
 
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl2.h"
-
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <GLES2/gl2.h>
-#endif
 #include <GLFW/glfw3.h>
 
 namespace yui {
@@ -37,7 +27,7 @@ public:
     gui& operator=(const gui&)  = delete;
     gui& operator=(gui&&)       = delete;
 
-    void run(std::invocable auto&& callback);
+    void run(std::function<void()> callback);
 
     /**
      * @brief   TODO
@@ -73,41 +63,6 @@ private:
     static void clear_color(const vec4& color);
     static std::string_view glsl_version();
 };
-
-/**
- * @brief   Event-loop
- */
-void gui::run(std::invocable auto&& callback) {
-    while (not glfwWindowShouldClose(m_window)) {
-        glfwPollEvents();
-        glfwGetWindowSize(m_window, &m_width, &m_height);
-
-        ImGui_ImplOpenGL2_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        clear_color(color::black);
-
-        std::invoke(callback);
-
-        ImGui::Render();
-        ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-        glfwSwapBuffers(m_window);
-    }
-}
-
-/**
- * @brief   TODO
- */
-inline void gui::clear_color(const vec4& color) {
-    glClearColor(
-        color.r() * color.a(),
-        color.g() * color.a(),
-        color.b() * color.a(),
-        color.a()
-    );
-
-    glClear(GL_COLOR_BUFFER_BIT);
-}
 
 } // namespace yui
 
