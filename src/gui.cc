@@ -1,5 +1,3 @@
-#include "yui/gui.h"
-
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
 #endif
@@ -10,6 +8,8 @@
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
+
+#include "yui/gui.h"
 
 namespace yui {
 
