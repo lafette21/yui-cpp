@@ -3,4 +3,4 @@
 	url = https://github.com/ocornut/imgui
 [submodule "deps/nova-cpp"]
 	path = deps/nova-cpp
-	url = git@github.com:GK72/nova-cpp.git
+	url = https://github.com/GK72/nova-cpp.git
