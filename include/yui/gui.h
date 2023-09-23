@@ -85,7 +85,7 @@ void gui::run(std::invocable auto&& callback) {
         ImGui_ImplOpenGL2_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        clear_color(nova::colors::black);
+        clear_color(colors::black);
 
         std::invoke(callback);
 

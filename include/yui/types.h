@@ -23,6 +23,12 @@ namespace yui {
 using nova::Vec2f;
 using nova::Color;
 
+namespace colors {
+
+using namespace nova::colors;
+
+} // namespace color
+
 } // namespace yui
 
 #endif // TYPES_H
