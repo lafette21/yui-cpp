@@ -1,3 +1,6 @@
 [submodule "deps/imgui"]
 	path = deps/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "deps/nova-cpp"]
+	path = deps/nova-cpp
+	url = https://github.com/GK72/nova-cpp.git

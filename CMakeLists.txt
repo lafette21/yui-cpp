@@ -21,6 +21,7 @@ set_project_warnings(project_warnings)
 enable_testing()
 
 # Add the subdirectories
+add_subdirectory(deps/nova-cpp/include)
 add_subdirectory(example)
 add_subdirectory(include)
 add_subdirectory(src)
