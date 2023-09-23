@@ -70,7 +70,7 @@ private:
     Vec2f m_dimensions;
     int m_width, m_height;
 
-    static void clear_color(const Vec4f& color);
+    static void clear_color(const Color& color);
     static std::string_view glsl_version();
 };
 
@@ -85,7 +85,7 @@ void gui::run(std::invocable auto&& callback) {
         ImGui_ImplOpenGL2_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        clear_color(color::black);
+        clear_color(nova::colors::black);
 
         std::invoke(callback);
 
@@ -98,12 +98,12 @@ void gui::run(std::invocable auto&& callback) {
 /**
  * @brief   TODO
  */
-inline void gui::clear_color(const Vec4f& color) {
+inline void gui::clear_color(const Color& color) {
     glClearColor(
-        color.x() * color.w(),
-        color.y() * color.w(),
-        color.z() * color.w(),
-        color.w()
+        color.r() * color.a(),
+        color.g() * color.a(),
+        color.b() * color.a(),
+        color.a()
     );
 
     glClear(GL_COLOR_BUFFER_BIT);
