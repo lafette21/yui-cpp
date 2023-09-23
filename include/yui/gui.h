@@ -8,8 +8,8 @@
 #include "types.h"
 #include "widgets.h"
 
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl2.h"
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl2.h>
 
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
@@ -19,7 +19,7 @@
 namespace yui {
 
 struct gui_config {
-    vec2 window_size;
+    Vec2f window_size;
     std::string fontpath;
     float fontsize;
 };
@@ -67,10 +67,10 @@ public:
 private:
     std::string_view m_glsl_version;
     GLFWwindow* m_window = nullptr;
-    vec2 m_dimensions;
+    Vec2f m_dimensions;
     int m_width, m_height;
 
-    static void clear_color(const vec4& color);
+    static void clear_color(const Vec4f& color);
     static std::string_view glsl_version();
 };
 
@@ -98,12 +98,12 @@ void gui::run(std::invocable auto&& callback) {
 /**
  * @brief   TODO
  */
-inline void gui::clear_color(const vec4& color) {
+inline void gui::clear_color(const Vec4f& color) {
     glClearColor(
-        color.r() * color.a(),
-        color.g() * color.a(),
-        color.b() * color.a(),
-        color.a()
+        color.x() * color.w(),
+        color.y() * color.w(),
+        color.z() * color.w(),
+        color.w()
     );
 
     glClear(GL_COLOR_BUFFER_BIT);

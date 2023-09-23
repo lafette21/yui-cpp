@@ -4,11 +4,11 @@
 #include "types.h"
 
 #define IM_VEC2_CLASS_EXTRA                                                     \
-    constexpr ImVec2(const yui::vec2& vec)                                      \
-        : x(vec.x)                                                              \
-        , y(vec.y)                                                              \
+    constexpr ImVec2(const yui::Vec2f& vec)                                     \
+        : x(vec.x())                                                            \
+        , y(vec.y())                                                            \
     {}                                                                          \
-    operator yui::vec2() const {                                                \
+    operator yui::Vec2f() const {                                               \
         return { x, y };                                                        \
     }
 
@@ -89,7 +89,7 @@ public:
     /**
      * @brief   Create a button with fixed size which calls the `callback` upon clicking
      */
-    Derived& button(const std::string& name, const vec2& size = { 0, 0 }, std::invocable auto&& callback = [] {}) {
+    Derived& button(const std::string& name, const Vec2f& size = { 0, 0 }, std::invocable auto&& callback = [] {}) {
         if (ImGui::Button(name.c_str(), size)) {
             std::invoke(callback);
         }
@@ -99,7 +99,7 @@ public:
     /**
      * @brief   Create an invisible button
      */
-    Derived& invisible_button(const std::string& name, const vec2& size, std::invocable auto&& callback) {
+    Derived& invisible_button(const std::string& name, const Vec2f& size, std::invocable auto&& callback) {
         if (ImGui::InvisibleButton(name.c_str(), size)) {
             std::invoke(callback);
         }
@@ -197,7 +197,7 @@ public:
     /**
      * @brief   Create a dummy object (placeholder)
      */
-    Derived& dummy(const vec2& size) {
+    Derived& dummy(const Vec2f& size) {
         ImGui::Dummy(size);
         return *static_cast<Derived*>(this);
     }
@@ -260,7 +260,7 @@ public:
      * @brief   Create an image on the window
      */
     // template <typename TextureId>
-    // window& image(TextureId id, const vec2& upper_left, const vec2& bottom_right) {
+    // window& image(TextureId id, const Vec2f& upper_left, const Vec2f& bottom_right) {
         // ImGui::GetWindowDrawList()->AddImage(
             // reinterpret_cast<void*>(id), upper_left, bottom_right
         // );
@@ -271,7 +271,7 @@ public:
      * @brief   Create an image on the window
      */
     template <typename TextureId>
-    window& image(TextureId id, const vec2& size) {
+    window& image(TextureId id, const Vec2f& size) {
         ImGui::Image(reinterpret_cast<void*>(id), size);
         return *this;
     }
@@ -279,7 +279,7 @@ public:
     /**
      * @brief   Set the window size
      */
-    window& size(const vec2& size) {
+    window& size(const Vec2f& size) {
         ImGui::SetWindowSize(size);
         return *this;
     }
