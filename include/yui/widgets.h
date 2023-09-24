@@ -134,6 +134,8 @@ public:
             ImGui::InputFloat(label.c_str(), value);
         } else if constexpr (std::is_same_v<T, double>) {
             ImGui::InputDouble(label.c_str(), value);
+        } else if constexpr (std::is_same_v<T, bool>) {
+            ImGui::Checkbox(label.c_str(), value);
         } else if constexpr (std::is_same_v<T, std::string>) {
             ImGui::InputText(
                 label.c_str(),
@@ -153,7 +155,7 @@ public:
         } else {
             static_assert(
                 std::is_same_v<T, void> && !std::is_same_v<T, void>,
-                "Only the following types are supported for input: int, float, double, std::string"
+                "Only the following types are supported for input: int, float, double, bool, std::string"
             );
         }
         return *static_cast<Derived*>(this);
