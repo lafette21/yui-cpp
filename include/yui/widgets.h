@@ -20,6 +20,30 @@
 
 namespace yui {
 
+enum class slider_flag {
+    None            = ImGuiWindowFlags_None,
+
+    // Clamp value also with CTRL + click
+    AlwaysClamp     = ImGuiSliderFlags_AlwaysClamp,
+
+    // Make the widget logarithmic (linear otherwise). Consider using
+    // `NoRoundToFormat` with this if using a format-string with
+    // small amount of digits.
+    Logarithmic     = ImGuiSliderFlags_Logarithmic,
+
+    // Disable rounding underlying value to match precision of the display
+    // format string (e.g. %.3f values are rounded to those 3 digits)
+    NoRoundToFormat = ImGuiSliderFlags_NoRoundToFormat,
+
+    // Disable CTRL + Click or Enter key allowing to input text directly into
+    // the widget
+    NoInput         = ImGuiSliderFlags_NoInput,
+};
+
+inline int operator|(slider_flag lhs, slider_flag rhs) {
+    return static_cast<int>(lhs) | static_cast<int>(rhs);
+}
+
 /**
  * @brief   TODO
  */
@@ -53,6 +77,44 @@ enum class window_flag {
 inline int operator|(window_flag lhs, window_flag rhs) {
     return static_cast<int>(lhs) | static_cast<int>(rhs);
 }
+
+/**
+ * @brief   Bit masking helper for `slider_flag`s
+ */
+class slider_config {
+public:
+    slider_config() = default;
+
+    template <typename... Args>
+        requires (std::is_same_v<Args, slider_flag> && ...)
+    slider_config(Args&&... args) {
+        m_flag = static_cast<int>(((std::forward<Args>(args)) | ...));
+    }
+
+    [[nodiscard]] int flag() const noexcept { return m_flag; }
+
+private:
+    int m_flag = static_cast<int>(slider_flag::None);
+};
+
+/**
+ * @brief   Bit masking helper for `window_flag`s
+ */
+class window_config {
+public:
+    window_config() = default;
+
+    template <typename... Args>
+        requires (std::is_same_v<Args, window_flag> && ...)
+    window_config(Args&&... args) {
+        m_flag = static_cast<int>(((std::forward<Args>(args)) | ...));
+    }
+
+    [[nodiscard]] int flag() const noexcept { return m_flag; }
+
+private:
+    int m_flag = static_cast<int>(window_flag::None);
+};
 
 /**
  * @brief   TODO
@@ -107,7 +169,7 @@ public:
     }
 
     /**
-     * @brief   Create a label
+     * @brief   Create a text
      */
     Derived& text(const std::string& msg) {
         ImGui::Text("%s", msg.c_str());
@@ -115,7 +177,7 @@ public:
     }
 
     /**
-     * @brief   Create a label with formatted text
+     * @brief   Create a formatted text
      */
     template <typename... Args>
     Derived& text(const std::string& fmt, Args&&... args) {
@@ -153,7 +215,32 @@ public:
         } else {
             static_assert(
                 std::is_same_v<T, void> && !std::is_same_v<T, void>,
-                "Only the following types are supported for input: int, float, double, std::string"
+                "Only the following types are supported for inputs: int, float, double, std::string"
+            );
+        }
+        return *static_cast<Derived*>(this);
+    }
+
+    /**
+     * @brief   Create a slider
+     */
+    template <typename T>
+    Derived& slider(
+        const std::string& label,
+        T* value,
+        T min,
+        T max,
+        const slider_config& config = {},
+        const std::string& format = ""
+    ) {
+        if constexpr (std::is_same_v<T, int>) {
+            ImGui::SliderInt(label.c_str(), value, min, max, format.empty() ? "%d" : format.c_str(), config.flag());
+        } else if constexpr (std::is_same_v<T, float>) {
+            ImGui::SliderFloat(label.c_str(), value, min, max, format.empty() ? "%.3f" : format.c_str(), config.flag());
+        } else {
+            static_assert(
+                std::is_same_v<T, void> && !std::is_same_v<T, void>,
+                "Only the following types are supported for sliders: int, float"
             );
         }
         return *static_cast<Derived*>(this);
@@ -217,25 +304,6 @@ public:
         ImGui::Separator();
         return *static_cast<Derived*>(this);
     }
-};
-
-/**
- * @brief   TODO
- */
-class window_config {
-public:
-    window_config() = default;
-
-    template <typename... Args>
-        requires (std::is_same_v<Args, window_flag> && ...)
-    window_config(Args&&... args) {
-        m_flag = static_cast<int>(((std::forward<Args>(args)) | ...));
-    }
-
-    [[nodiscard]] int flag() const noexcept { return m_flag; }
-
-private:
-    int m_flag = static_cast<int>(window_flag::None);
 };
 
 /**
