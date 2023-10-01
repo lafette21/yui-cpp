@@ -20,17 +20,24 @@
 
 namespace yui {
 
-/**
- * @brief   TODO
- */
 enum class slider_flag {
-    None                        = ImGuiWindowFlags_None,
-    AlwaysClamip                = ImGuiSliderFlags_AlwaysClamp,     // Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-    Logarithmic                 = ImGuiSliderFlags_Logarithmic,     // Make the widget logarithmic (linear otherwise). Consider using ImGuiSliderFlags_NoRoundToFormat with this if using a format-string with small amount of digits.
-    NoRoundToFormat             = ImGuiSliderFlags_NoRoundToFormat, // Disable rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
-    NoInput                     = ImGuiSliderFlags_NoInput,         // Disable CTRL+Click or Enter key allowing to input text directly into the widget
-    // TODO: InvalidMask maybe not needed
-    InvalidMask                 = ImGuiSliderFlags_InvalidMask_,    // [Internal] We treat using those bits as being potentially a 'float power' argument from the previous API that has got miscast to this enum, and will trigger an assert if needed.
+    None            = ImGuiWindowFlags_None,
+
+    // Clamp value also with CTRL + click
+    AlwaysClamp     = ImGuiSliderFlags_AlwaysClamp,
+
+    // Make the widget logarithmic (linear otherwise). Consider using
+    // `NoRoundToFormat` with this if using a format-string with
+    // small amount of digits.
+    Logarithmic     = ImGuiSliderFlags_Logarithmic,
+
+    // Disable rounding underlying value to match precision of the display
+    // format string (e.g. %.3f values are rounded to those 3 digits)
+    NoRoundToFormat = ImGuiSliderFlags_NoRoundToFormat,
+
+    // Disable CTRL + Click or Enter key allowing to input text directly into
+    // the widget
+    NoInput         = ImGuiSliderFlags_NoInput,
 };
 
 inline int operator|(slider_flag lhs, slider_flag rhs) {
@@ -72,7 +79,7 @@ inline int operator|(window_flag lhs, window_flag rhs) {
 }
 
 /**
- * @brief   TODO
+ * @brief   Bit masking helper for `slider_flag`s
  */
 class slider_config {
 public:
@@ -87,11 +94,11 @@ public:
     [[nodiscard]] int flag() const noexcept { return m_flag; }
 
 private:
-    int m_flag = static_cast<int>(window_flag::None);
+    int m_flag = static_cast<int>(slider_flag::None);
 };
 
 /**
- * @brief   TODO
+ * @brief   Bit masking helper for `window_flag`s
  */
 class window_config {
 public:
@@ -162,7 +169,7 @@ public:
     }
 
     /**
-     * @brief   Create a label
+     * @brief   Create a text
      */
     Derived& text(const std::string& msg) {
         ImGui::Text("%s", msg.c_str());
@@ -170,7 +177,7 @@ public:
     }
 
     /**
-     * @brief   Create a label with formatted text
+     * @brief   Create a formatted text
      */
     template <typename... Args>
     Derived& text(const std::string& fmt, Args&&... args) {
@@ -234,32 +241,6 @@ public:
             static_assert(
                 std::is_same_v<T, void> && !std::is_same_v<T, void>,
                 "Only the following types are supported for sliders: int, float"
-            );
-        }
-        return *static_cast<Derived*>(this);
-    }
-
-    /**
-     * @brief   Create a drag slider
-     */
-    template <typename T>
-    Derived& drag_slider(
-        const std::string& label,
-        T* value,
-        float speed,
-        T min,
-        T max,
-        const slider_config& config = {},
-        const std::string& format = ""
-    ) {
-        if constexpr (std::is_same_v<T, int>) {
-            ImGui::DragInt(label.c_str(), value, speed, min, max, format.empty() ? "%d" : format.c_str(), config.flag());
-        } else if constexpr (std::is_same_v<T, float>) {
-            ImGui::DragFloat(label.c_str(), value, speed, min, max, format.empty() ? "%.3f" : format.c_str(), config.flag());
-        } else {
-            static_assert(
-                std::is_same_v<T, void> && !std::is_same_v<T, void>,
-                "Only the following types are supported for drag sliders: int, float"
             );
         }
         return *static_cast<Derived*>(this);
