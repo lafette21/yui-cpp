@@ -180,8 +180,8 @@ public:
      * @brief   Create a formatted text
      */
     template <typename... Args>
-    Derived& text(const std::string& fmt, Args&&... args) {
-        ImGui::Text("%s", fmt::vformat(fmt, fmt::make_format_args(std::forward<Args>(args)...)).c_str());
+    Derived& text(fmt::format_string<Args...> fmt, Args&&... args) {
+        ImGui::Text("%s", fmt::format(fmt, std::forward<Args>(args)...).c_str());
         return *static_cast<Derived*>(this);
     }
 
