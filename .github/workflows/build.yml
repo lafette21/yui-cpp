@@ -27,6 +27,12 @@ jobs:
       if: runner.os == 'MacOS' || runner.os == 'Linux'
       run: echo 'Cython < 3.0' > ${PIP_CONSTRAINT}
 
+    - name: Init - Windows
+      if: runner.os == 'Windows'
+      run: |
+        export PIP_CONSTRAINT=%TEMP%\constraint.txt
+        echo 'Cython < 3.0' > ${PIP_CONSTRAINT}
+
     - name: Prepare
       uses: turtlebrowser/get-conan@main
       with:
