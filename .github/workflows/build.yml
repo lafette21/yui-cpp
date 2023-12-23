@@ -24,6 +24,7 @@ jobs:
         submodules: 'true'
 
     - name: Init
+      if: runner.os == 'MacOS' || runner.os == 'Linux'
       run: echo 'Cython < 3.0' > ${PIP_CONSTRAINT}
 
     - name: Prepare
