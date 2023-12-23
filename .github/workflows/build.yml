@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  PIP_CONSTRAINT: /tmp/constraint.txt
+
 jobs:
   build:
     strategy:
@@ -20,10 +23,13 @@ jobs:
       with:
         submodules: 'true'
 
+    - name: Init
+      run: echo 'Cython < 3.0' > ${PIP_CONSTRAINT}
+
     - name: Prepare
       uses: turtlebrowser/get-conan@main
       with:
-        version: 1.59.0
+        version: 1.60.0
 
     - name: Install dependencies - Linux
       if: runner.os == 'Linux'
@@ -36,8 +42,6 @@ jobs:
     - name: Install dependencies - MacOS
       if: runner.os == 'MacOS'
       run: |
-        echo 'Cython < 3.0' > /tmp/constraint.txt
-        export PIP_CONSTRAINT=/tmp/constraint.txt
         brew install fmt glfw3 googletest
 
     - name: Install dependencies - Windows
