@@ -26,14 +26,14 @@ jobs:
     - name: Init
       run: |
         echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
-        pip3 install imp
+        python3 --version
 
     - name: Prepare
       uses: turtlebrowser/get-conan@main
       env:
         PIP_CONSTRAINT: ${{ env.PIP_CONSTRAINT_PATH }}
       with:
-        version: 1.60.0
+        version: 1.59.0
 
     - name: Install dependencies - Linux
       if: runner.os == 'Linux'
