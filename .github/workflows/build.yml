@@ -27,7 +27,7 @@ jobs:
       if: runner.os == 'MacOS' || runner.os == 'Linux'
       run: |
         export PIP_CONSTRAINT_PATH=/tmp/constraints.txt
-        echo ${{ env.PIP_CONSTRAINT_PATH }}
+        echo ${{ env.GITHUB_ENV }}
         echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
 
     - name: Init - Windows
