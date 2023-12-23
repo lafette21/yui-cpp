@@ -35,7 +35,10 @@ jobs:
 
     - name: Install dependencies - MacOS
       if: runner.os == 'MacOS'
-      run: brew install fmt glfw3 googletest
+      run: |
+        echo 'Cython < 3.0' > /tmp/constraint.txt
+        export PIP_CONSTRAINT=/tmp/constraint.txt
+        brew install fmt glfw3 googletest
 
     - name: Install dependencies - Windows
       uses: johnwason/vcpkg-action@v5
