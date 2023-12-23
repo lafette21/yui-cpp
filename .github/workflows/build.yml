@@ -35,8 +35,7 @@ jobs:
 
     - name: Install dependencies - MacOS
       if: runner.os == 'MacOS'
-      run: |
-        brew install fmt glfw3 googletest
+      run: brew install fmt glfw3 googletest
 
     - name: Install dependencies - Windows
       uses: johnwason/vcpkg-action@v5
