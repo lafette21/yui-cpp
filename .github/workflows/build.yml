@@ -34,7 +34,8 @@ jobs:
       uses: turtlebrowser/get-conan@main
       if: runner.os == 'MacOS' || runner.os == 'Linux'
       env:
-        PIP_CONSTRAINT: 'Cython < 3.0'
+        PIP_CONSTRAINT: /tmp/constraint.txt
+      run: echo 'Cython < 3.0' > ${PIP_CONSTRAINT}
       with:
         version: 1.60.0
 
@@ -42,7 +43,8 @@ jobs:
       uses: turtlebrowser/get-conan@main
       if: runner.os == 'Windows'
       env:
-        PIP_CONSTRAINT: 'Cython < 3.0'
+        PIP_CONSTRAINT: '%TEMP%\constraint.txt'
+      run: echo 'Cython < 3.0' > ${PIP_CONSTRAINT}
       with:
         version: 1.60.0
 
