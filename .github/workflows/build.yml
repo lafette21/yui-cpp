@@ -32,7 +32,7 @@ jobs:
       if: runner.os == 'MacOS'
       run: |
         which python3
-        ln -s $(which python3).11 $(which python3)
+        ln -sF $(which python3).11 $(which python3)
 
     - name: Prepare
       uses: turtlebrowser/get-conan@main
