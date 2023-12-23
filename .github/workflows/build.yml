@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest, windows-latest ] # [ macos-latest, ubuntu-latest, windows-latest ]
         build_type: [ Debug, Release ]
     runs-on: ${{ matrix.os }}
 
@@ -26,20 +26,11 @@ jobs:
     - name: Init
       run: |
         echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
-        python3 --version
-
-    - name: MacOS
-      if: runner.os == 'MacOS'
-      run: |
-        which python3
-        brew uninstall --ignore-dependencies python@3.12
-        which python3
-        which pip3
 
     - name: Prepare
       uses: turtlebrowser/get-conan@main
-      env:
-        PIP_CONSTRAINT: ${{ env.PIP_CONSTRAINT_PATH }}
+      # env:
+        # PIP_CONSTRAINT: ${{ env.PIP_CONSTRAINT_PATH }}
       with:
         version: 1.59.0
 
