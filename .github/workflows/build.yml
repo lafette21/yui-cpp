@@ -28,6 +28,11 @@ jobs:
         echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
         python3 --version
 
+    - name: MacOS
+      run: |
+        which python3
+        find /usr -name "python3.11"
+
     - name: Prepare
       uses: turtlebrowser/get-conan@main
       env:
