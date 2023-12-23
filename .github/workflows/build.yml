@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  PIP_CONSTRAINT_PATH: ""
+
 jobs:
   build:
     strategy:
@@ -20,10 +23,14 @@ jobs:
       with:
         submodules: 'true'
 
-    - name: Set PIP_CONSTRAINT
-      id: set_pip_constraint
+    - name: Init
       run: |
-        echo "PIP_CONSTRAINT_PATH=$([[ '${{ runner.os }}' == 'Windows' ]] && echo ${TEMP} || echo '/tmp')/constraint.txt" >> $GITHUB_ENV
+        if [ "${{ runner.os }}" == "Windows" ]; then
+          export PIP_CONSTRAINT_PATH="%TEMP%"\constraints.txt
+        else
+          export PIP_CONSTRAINT_PATH=/tmp/constraints.txt
+        fi
+        echo ${{ env.PIP_CONSTRAINT_PATH }}
         echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
 
     - name: Prepare
