@@ -24,7 +24,9 @@ jobs:
         submodules: 'true'
 
     - name: Init
-      run: echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
+      run: |
+        echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
+        pip3 install imp
 
     - name: Prepare
       uses: turtlebrowser/get-conan@main
