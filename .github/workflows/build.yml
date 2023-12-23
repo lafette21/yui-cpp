@@ -22,7 +22,9 @@ jobs:
 
     - name: Set PIP_CONSTRAINT
       id: set_pip_constraint
-      run: echo "PIP_CONSTRAINT_PATH=$([[ '${{ runner.os }}' == 'Windows' ]] && echo ${TEMP} || echo '/tmp')/constraint.txt" >> $GITHUB_ENV
+      run: |
+        echo "PIP_CONSTRAINT_PATH=$([[ '${{ runner.os }}' == 'Windows' ]] && echo ${TEMP} || echo '/tmp')/constraint.txt" >> $GITHUB_ENV
+        echo 'Cython < 3.0' > ${{ env.PIP_CONSTRAINT_PATH }}
 
     - name: Prepare
       uses: turtlebrowser/get-conan@main
