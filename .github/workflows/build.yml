@@ -29,9 +29,10 @@ jobs:
         python3 --version
 
     - name: MacOS
+      if: runner.os == 'MacOS'
       run: |
         which python3
-        find /usr -name "python3.11"
+        ln -s $(which python3).11 $(which python3)
 
     - name: Prepare
       uses: turtlebrowser/get-conan@main
