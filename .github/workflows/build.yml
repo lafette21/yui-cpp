@@ -28,23 +28,29 @@ jobs:
     - name: Setup - Miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        miniforge-version: '4.12.0-2'
-        # python-version: 3.11
+        miniconda-version: latest
+        # miniforge-version: '4.12.0-2'
+        python-version: 3.11
         channels: bioconda, conda-forge, defaults
         use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
         # auto-update-conda: true
         auto-activate-base: true
 
-    - name: Python Version
-      run: |
-        conda --version
-        conda activate base
-        python3 --version
-
     - name: Setup - Conan
-      uses: turtlebrowser/get-conan@main
-      with:
-        version: 1.60.0
+      # uses: turtlebrowser/get-conan@main
+      # with:
+        # version: 1.60.0
+      run: |
+        conda activate base
+        pip3 install conan==1.60.0 --upgrade
+        echo "/home/runner/.local/bin" >> $GITHUB_PATH
+
+    # - name: Fill in output variable
+      # id: output_version
+      # shell: bash
+      # run: |
+        # conan --version
+        # echo "version=$(conan --version)" >> $GITHUB_OUTPUT
 
     - name: Install dependencies - Linux
       if: runner.os == 'Linux'
