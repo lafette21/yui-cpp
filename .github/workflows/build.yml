@@ -35,6 +35,11 @@ jobs:
         # auto-update-conda: true
         auto-activate-base: true
 
+    - name: Python Version
+      run: |
+        conda version
+        python3 --version
+
     - name: Setup - Conan
       uses: turtlebrowser/get-conan@main
       with:
