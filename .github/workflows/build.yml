@@ -37,7 +37,7 @@ jobs:
 
     - name: Python Version
       run: |
-        conda version
+        conda --version
         python3 --version
 
     - name: Setup - Conan
