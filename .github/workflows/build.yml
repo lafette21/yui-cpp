@@ -38,6 +38,7 @@ jobs:
     - name: Python Version
       run: |
         conda --version
+        conda activate base
         python3 --version
 
     - name: Setup - Conan
