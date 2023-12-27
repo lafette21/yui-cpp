@@ -28,8 +28,8 @@ jobs:
     - name: Setup - Miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        miniforge-version: '23.3.1-1'
-        python-version: 3.11
+        miniforge-version: '4.12.0-2'
+        # python-version: 3.11
         channels: bioconda, conda-forge, defaults
         use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
         # auto-update-conda: true
